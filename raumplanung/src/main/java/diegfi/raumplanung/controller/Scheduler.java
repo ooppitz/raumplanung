@@ -63,4 +63,28 @@ public class Scheduler {
 		}
 		return true;
 	}
+
+	public static ArrayList<Room> findFreeRooms(LocalDate d) {
+	
+		ArrayList<Room> free = new ArrayList<Room>();
+		for(Room r : rooms) {
+			if (Scheduler.isFree(r, d)) {
+				free.add(r);
+			}
+		}
+		return free;
+	}
+
+	public static ArrayList<Room> findFreeRooms(LocalDate begin, LocalDate endExclusive) {
+
+		ArrayList<Room> free = (ArrayList<Room>) rooms.clone();
+
+		Iterator iter = rooms.iterator();
+		for(Room r: rooms) {
+			if (!Scheduler.isFree(r, begin, endExclusive) ) {
+				free.remove(r);
+			}
+		}
+		return free;
+	}
 }
