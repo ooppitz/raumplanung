@@ -33,6 +33,21 @@ class AllocationTest {
 		
 		dayOfVisit = LocalDate.of(2021, 7, 21);
 		assertEquals(1, Scheduler.getFreeCount(dayOfVisit), "Should be one");
+		
+		assertEquals(2, Scheduler.getFreeCount(LocalDate.of(1900, 1, 1)), "Should be 2 as no room booked in 1900");
+		
+	}
+	
+	@Test
+	void testCheckFree() {
+		
+		Room untersberg = new Room("Raum Untersberg");
+		LocalDate day = LocalDate.of(2001, 12, 31);
+		assertTrue(Scheduler.isFree(untersberg, day), "Should be free as no booking was scheduled");
+		Allocation a = new Allocation(untersberg, day);
+		assertFalse(Scheduler.isFree(untersberg, day), "Should be taken as booking was made for the same day");
+	
 	}
 
+	
 }
