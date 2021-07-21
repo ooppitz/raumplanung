@@ -87,4 +87,21 @@ public class Scheduler {
 		}
 		return free;
 	}
+
+	public static ArrayList<Integer> getAllocation(Room room, LocalDate begin, LocalDate endExclusive) {
+		
+		Stream<LocalDate> range = begin.datesUntil(endExclusive);
+		
+		Iterator<LocalDate> iter = range.iterator();
+		ArrayList<Integer> booked = new ArrayList<Integer>();
+		
+		int index = 0;
+		while (iter.hasNext()) {
+			LocalDate date = iter.next();
+			booked.add(Scheduler.isFree(room, date) ? 0 : 1);
+			index++;
+		}
+		
+		return booked;
+	}
 }
