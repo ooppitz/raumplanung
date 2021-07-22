@@ -100,10 +100,10 @@ class AllocationTest {
 	@Test
 	void testFindFreeRoom() {
 
-		// 123456789A
-		// Untersberg x xx x
-		// Watzmann xx
-		// Blaueishütte x
+		// ...........123456789A
+		// Untersberg.x.xx.x
+		// Watzmann......xx
+		// Blaueishütte...x
 
 		Room untersberg = bookUntersberg();
 		Room watzmann = bookWatzmann();
@@ -123,11 +123,32 @@ class AllocationTest {
 		freeInRange = Scheduler.findFreeRooms(LocalDate.of(2022, 1, 5), LocalDate.of(2022, 1, 6));
 		assertEquals(1, freeInRange.size(), "Should have only Untersberg free");
 		assertTrue(freeInRange.contains(untersberg), "Should contain only Untersberg");
+	}
+	
+	@Test
+	void testFindFreeRoomsWithMinAudience() {
+		
+		//                  123456789A
+		// Untersberg(10)   x xx    x      
+		// Watzmann  (3)       xx
+		// Blaueishütte(20)     x
+		Room untersberg = bookUntersberg(); // 10
+		Room watzmann = bookWatzmann();     // 3
+		Room blaueis = bookBlaueis();       // 20
+		
+		ArrayList<Room> free = Scheduler.findFreeRoomsForAudienceOf(5, LocalDate.of(2022, 1, 3), LocalDate.of(2022, 1, 5));
+		assertEquals(1, free.size(), "Should be ony one room, Blaueis");
+		assertTrue(free.contains(blaueis), "Should contain only Blaueis");
 
+		ArrayList<Room> freeHuge = Scheduler.findFreeRoomsForAudienceOf(100, LocalDate.of(2022, 1, 3), LocalDate.of(2022, 1, 5));
+		assertEquals(0, freeHuge.size(), "Should be empty");
+		
+		freeHuge = Scheduler.findFreeRoomsForAudienceOf(100, LocalDate.of(2022, 1, 5), LocalDate.of(2022, 1, 8));
+		assertEquals(0, freeHuge.size(), "Should be empty");
 	}
 
 	private Room bookUntersberg() {
-		Room untersberg = new Room("Raum Untersberg");
+		Room untersberg = new Room("Raum Untersberg", 10);
 		new Allocation(untersberg, LocalDate.of(2022, 1, 1));
 		new Allocation(untersberg, LocalDate.of(2022, 1, 3));
 		new Allocation(untersberg, LocalDate.of(2022, 1, 4));
@@ -136,14 +157,14 @@ class AllocationTest {
 	}
 
 	private Room bookWatzmann() {
-		Room watzmann = new Room("Watzmann");
+		Room watzmann = new Room("Watzmann", 3);
 		new Allocation(watzmann, LocalDate.of(2022, 1, 4));
 		new Allocation(watzmann, LocalDate.of(2022, 1, 5));
 		return watzmann;
 	}
 
 	private Room bookBlaueis() {
-		Room blaueis = new Room("Blaueishütte");
+		Room blaueis = new Room("Blaueishütte", 20);
 		new Allocation(blaueis, LocalDate.of(2022, 1, 5));
 		return blaueis;
 	}
@@ -152,10 +173,10 @@ class AllocationTest {
 	void testDoubleBooking() {
 		Room untersberg = new Room("Blaueishütte");
 		new Allocation(untersberg, LocalDate.of(2022, 1, 1));
-		Assertions.assertThrows(RuntimeException.class, () -> new Allocation(untersberg, LocalDate.of(2022, 1, 1)));
+		Assertions.assertThrows(RuntimeException.class, () -> new Allocation(untersberg, LocalDate.of(2022, 1, 1)), "Should collide with 2022/Jan/1st");
 		new Allocation(untersberg, LocalDate.of(2022, 1, 5));
 		Assertions.assertThrows(RuntimeException.class,
-				() -> new Allocation(untersberg, LocalDate.of(2022, 1, 3), LocalDate.of(2022, 1, 8)));
+				() -> new Allocation(untersberg, LocalDate.of(2022, 1, 3), LocalDate.of(2022, 1, 8)), "Should collide with 2022/Jan/5th");
 	}
 
 	@Test

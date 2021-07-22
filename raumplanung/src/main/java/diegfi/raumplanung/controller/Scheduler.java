@@ -88,6 +88,23 @@ public class Scheduler {
 		return free;
 	}
 
+
+	public static ArrayList<Room> findFreeRoomsForAudienceOf(int seatsForAudience, LocalDate begin, LocalDate endExclusive) {
+		
+		ArrayList<Room> free = (ArrayList<Room>) rooms.clone();
+
+		Iterator iter = rooms.iterator();
+		for(Room r: rooms) {
+			if (r.getSeatsForAudience() < seatsForAudience) {
+				free.remove(r);
+				continue;
+			}
+			if (!Scheduler.isFree(r, begin, endExclusive) ) {
+				free.remove(r);
+			}
+		}
+		return free;
+	}
 	public static ArrayList<Integer> getAllocation(Room room, LocalDate begin, LocalDate endExclusive) {
 		
 		Stream<LocalDate> range = begin.datesUntil(endExclusive);
@@ -104,4 +121,5 @@ public class Scheduler {
 		
 		return booked;
 	}
+
 }
