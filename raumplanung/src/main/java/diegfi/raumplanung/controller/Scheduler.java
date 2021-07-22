@@ -109,6 +109,14 @@ public class Scheduler {
 		}
 		return free;
 	}
+	
+	/** Calculates the allocation for a specific room for a range of dates.
+	 * 
+	 * @param room
+	 * @param begin
+	 * @param endExclusive
+	 * @return Allocation where 0 indicates free and 1 indicates an occupied room
+	 */
 	public static ArrayList<Integer> getAllocation(Room room, LocalDate begin, LocalDate endExclusive) {
 		
 		Stream<LocalDate> range = begin.datesUntil(endExclusive);
