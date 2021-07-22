@@ -16,6 +16,10 @@ public class Scheduler {
 
 	public static ArrayList<Allocation> allocs = new ArrayList<Allocation>();
 
+	public static ArrayList<Room> getRooms() {
+		return (ArrayList<Room>) rooms.clone();
+	}
+
 	public static void add(Room room) {
 		rooms.add(room);
 
