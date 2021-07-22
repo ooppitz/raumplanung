@@ -14,5 +14,11 @@ public class RaumauswahlController {
     
     @FXML
     private Button buttonSuchen;
+    
+    @FXML
+    private void initialize() 
+    {
+       	System.out.println("RaumauswahlController.initialize()");
+    }
 
 }

@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -13,12 +14,17 @@
       <DatePicker fx:id="datePickerBis" layoutX="293.0" layoutY="102.0" />
       <Label layoutX="102.0" layoutY="75.0" text="Von" />
       <Label layoutX="300.0" layoutY="75.0" text="Bis" />
-      <TableView layoutX="102.0" layoutY="158.0" prefHeight="200.0" prefWidth="373.0">
+      <TableView layoutX="102.0" layoutY="158.0" prefHeight="200.0" prefWidth="365.0">
         <columns>
           <TableColumn prefWidth="75.0" text="C1" />
           <TableColumn prefWidth="75.0" text="C2" />
         </columns>
       </TableView>
       <Button fx:id="buttonSuchen" layoutX="502.0" layoutY="102.0" mnemonicParsing="false" text="Suchen" />
+      <Label layoutX="99.0" layoutY="27.0" text="Raumauswahl">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
